@@ -1,2 +1,24 @@
-# CF-ORMGen
-CF-ORM Generator is a ColdFusion File for Generating ORM-Based ColdFusion Components. It Creates all the components based off of a ColdFusion Datasource.
+CF-ORMGen v.1.0.2.2
+=========
+
+Coldfusion File for Generating ORM Components
+
+This Creates an ORM Component from a DataSource and a Database Table.
+
+Change Log:
+==========
+V.1.0.2.2:
+   - Updated UI for a somewhat cleaner, more organizaed layout. Removed the "Database" form field, fixed file generation locations
+   
+V.1.0.2.1:
+   - Updated CF-ORMGEN to create an Isloated Directory within the /cfc/ Directory based off of the Supplied DataSource Name
+   
+V.1.0.2 :
+   - Updated CF-ORMGEN to loop over All Tables in Datasource and Generate Components
+   
+V.1.0.1 :
+   - Initial Release
+   
+To do:
+=========
+   - Foreign Key Contraints   
