@@ -1,4 +1,4 @@
-CF-ORMGen v.1.0.2.2
+CF-ORMGen v.1.0.2.3
 =========
 
 Coldfusion File for Generating ORM Components
@@ -7,6 +7,8 @@ This Creates an ORM Component from a DataSource and a Database Table.
 
 Change Log:
 ==========
+V.1.0.2.3:
+  - Added Support for MySQL and SQLServer Datasources/Databases
 V.1.0.2.2:
    - Updated UI for a somewhat cleaner, more organizaed layout. Removed the "Database" form field, fixed file generation locations
    

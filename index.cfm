@@ -1,12 +1,13 @@
 <!---ORM CFC Generator By J Harvey jchharvey@webDevSourcerer.com
 Creates a CFScript CFC for ORM Database Components
-Version 1.0.2.2
+Version 1.0.2.3
 
 Notes:
 Updated to crawl over all Tables within a Specified DataSource
+Updated to Support MySQL DataSources
 
 Still to Do: 
--- Add support for Foreign Key Constraints:
+-- Add support for Foreign Key Constraints
 --->
 
 <form method="post" style="text-align: center; margin-left: auto; margin-right: auto; width: 550px; height: 250px; border:2px solid #f5f5f5; border-radius:4px; background: #eeeeee;">
@@ -14,7 +15,7 @@ Still to Do:
 <p>Your Components will be created within the <em>/CFC/-datasourcename-</em> folder.</p>
 Datasource:<input type="text" name="tempdsn" value=""><br>
 <input type="submit">
-<p style="margin-bottom: 15px;">Version 1.0.2.2</p>
+<p style="margin-bottom: 15px;">Version 1.0.2.3</p>
 </form>
 
 
@@ -25,12 +26,30 @@ Datasource:<input type="text" name="tempdsn" value=""><br>
 <div style="margin-left: auto; margin-right: auto; overflow: auto; width: 550px; height: 450px; border:2px solid #f5f5f5; border-radius:4px; background: #fff;">
     <h2 style="text-align: center;">Generating your components...</h2>
     <cfoutput>
+    <!---We Run Some Checks First--->   
+    <cfdbinfo datasource="#form.tempdsn#" name="result" type="version">
     <cfdbinfo datasource="#form.tempdsn#" name="Database" type="tables">
-    <!---cfdump var="#Database#"---> 
-    <cfquery dbtype="query" name="table_names">
-       Select TABLE_NAME from Database where TABLE_TYPE='table' and TABLE_SCHEM='dbo'
-    </cfquery>
+    <!---cfdump var="#database#" abort="true"--->
     
+    <cfif result.Database_ProductName == "MySQL">
+	    <!---MYSQL--->       
+	   <cfquery name="table_names" datasource="#form.tempdsn#" >
+	
+		select table_name from information_schema.tables 
+		where table_schema='#Database.table_cat#'
+		
+	</cfquery>
+	
+	
+	<cfelseif result.Database_ProductName == "Microsoft SQL Server">
+		<!---SQL Server--->
+		     
+	    <cfquery dbtype="query" name="table_names">
+	       Select TABLE_NAME from Database where TABLE_TYPE='table' and TABLE_SCHEM='dbo'
+	    </cfquery>
+	       
+    </cfif>
+  
     <cfdirectory action="create" directory="cfc/#form.tempdsn#/">
     
     <cfloop query="table_names">
