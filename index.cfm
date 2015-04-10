@@ -25,13 +25,16 @@ Datasource:<input type="text" name="tempdsn" value=""><br>
 <!--- We Run Some Checks First --->
 <cfdbinfo datasource="#form.tempdsn#" name="result" type="version">
 <cfdbinfo datasource="#form.tempdsn#" name="Database" type="tables">
-<!---  ---><cfdump var="#database#" abort="true" />
+<!--- <cfdump var="#database#" abort="true" /> --->
 
   <cfif (CompareNoCase(result.Database_ProductName, "MySQL") EQ 0)>
 	  <!--- MYSQL --->
+	  <cfset table_names = database />
+	  <cfif (isDefined("Database.table_cat"))>
 	  <cfquery name="table_names" datasource="#form.tempdsn#" >
 			select table_name from information_schema.tables where table_schema='#Database.table_cat#'
 		</cfquery>
+		</cfif>
 	<cfelseif (CompareNoCase(result.Database_ProductName, "Microsoft SQL Server") EQ 0)>
 		<!--- SQL Server --->
 		<cfquery dbtype="query" name="table_names">
@@ -39,7 +42,7 @@ Datasource:<input type="text" name="tempdsn" value=""><br>
 		</cfquery>
   </cfif>
 
-	<cfdirectory action="create" directory="cfc/#form.tempdsn#/">
+	<cfdirectory action="create" directory="cfc/#form.tempdsn#/" />
 
 	<cfloop query="table_names">
     Creating ORM Component for Table: <strong><em>#table_names.table_name#</em></strong><br>
