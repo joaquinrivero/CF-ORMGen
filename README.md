@@ -9,6 +9,7 @@ Change Log:
 ==========
 V.1.0.2.3:
   - Added Support for MySQL and SQLServer Datasources/Databases
+  - Thanks to reubenbrown13 for bug Fix and Component WhiteSpace Cleanup. 
 V.1.0.2.2:
    - Updated UI for a somewhat cleaner, more organizaed layout. Removed the "Database" form field, fixed file generation locations
    
