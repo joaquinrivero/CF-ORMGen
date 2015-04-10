@@ -41,8 +41,10 @@ Datasource:<input type="text" name="tempdsn" value=""><br>
 			 Select TABLE_NAME from Database where TABLE_TYPE='table' and TABLE_SCHEM='dbo'
 		</cfquery>
   </cfif>
-
-	<cfdirectory action="create" directory="cfc/#form.tempdsn#/" />
+  <cfset OrmDir = GetDirectoryFromPath(GetCurrentTemplatePath()) & "cfc/#form.tempdsn#/" />
+	<cfif (DirectoryExists(OrmDir) EQ FALSE)>
+		<cfdirectory action="create" directory="#OrmDir#" />
+	</cfif>
 
 	<cfloop query="table_names">
     Creating ORM Component for Table: <strong><em>#table_names.table_name#</em></strong><br>
@@ -67,7 +69,8 @@ component output="false" persistent="true" table="#temp.table_name#" accessors="
 		<cfcase value="varchar"><cfset datatype = 'cf_sql_varchar'><cfset sqldt = 'string'></cfcase>
 		<cfcase value="nvarchar"><cfset datatype = 'cf_sql_varchar'><cfset sqldt = 'string'></cfcase>
 		<cfcase value="text"><cfset datatype = 'cf_sql_longvarchar'><cfset sqldt = 'string'></cfcase>
-	</cfswitch>property name="#column_name#" column="#column_name#" getter="true" <cfif currentrow eq 1>setter="false" fieldtype="id" 	generator="identity"<cfelse> setter="true" <cfif sqldt eq 'datetime'>ORMtype="date"<cfelse>type="#sqldt#"</cfif> sqltype="#datatype#"</cfif>;</cfloop>
+	</cfswitch>
+	property name="#column_name#" column="#column_name#" getter="true" <cfif currentrow eq 1>setter="false" fieldtype="id" 	generator="identity"<cfelse> setter="true" <cfif sqldt eq 'datetime'>ORMtype="date"<cfelse>type="#sqldt#"</cfif> sqltype="#datatype#"</cfif>;</cfloop>
 
 	public function init(){
 		return this;
