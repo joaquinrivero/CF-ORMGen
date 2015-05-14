@@ -38,9 +38,10 @@ Datasource:<input type="text" name="tempdsn" value=""><br>
 	<cfelseif (CompareNoCase(result.Database_ProductName, "Microsoft SQL Server") EQ 0)>
 		<!--- SQL Server --->
 		<cfquery dbtype="query" name="table_names">
-			 Select TABLE_NAME from Database where TABLE_TYPE='table' and TABLE_SCHEM='dbo'
+			 Select TABLE_NAME from Database where TABLE_TYPE='TABLE'
 		</cfquery>
   </cfif>
+  <!--- <cfdump var="#database#" /> --->
   <cfset OrmDir = GetDirectoryFromPath(GetCurrentTemplatePath()) & "cfc/#form.tempdsn#/" />
 	<cfif (DirectoryExists(OrmDir) EQ FALSE)>
 		<cfdirectory action="create" directory="#OrmDir#" />
